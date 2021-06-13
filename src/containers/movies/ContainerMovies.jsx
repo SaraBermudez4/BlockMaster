@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Box, Grid } from '@chakra-ui/layout'
 import CardPelis from './CardPelis'
+import { useSelector } from 'react-redux'
 import imgPeli1 from '../../images/Hard Kill.png'
 import imgPeli2 from '../../images/Rogue.png'
 import imgPeli3 from '../../images/Santana.png'
@@ -26,22 +27,30 @@ const StyledTitulo = styled.h1`
     margin-left: 83px;
     margin-top: 56px;
 `
+// , display: "flex", flexWrap: "wrap" 
 const ContainerMovies = () => {
+    const { movies } = useSelector(state => state.movies)
     return (
         <>
-        <StyledTitulo>Todas las peliculas</StyledTitulo>
-        <Grid templateColumns="repeat(5, 1fr)" gap={5} style={{marginLeft:"83px", marginRight:"83px", marginTop:"48px"}}>
-            <StyledBoxPeli ><CardPelis portada={imgPeli1}/></StyledBoxPeli>
-            <StyledBoxPeli ><CardPelis portada={imgPeli2}/></StyledBoxPeli>
-            <StyledBoxPeli ><CardPelis portada={imgPeli3}/></StyledBoxPeli>
-            <StyledBoxPeli ><CardPelis portada={imgPeli4}/></StyledBoxPeli>
-            <StyledBoxPeli ><CardPelis portada={imgPeli5}/></StyledBoxPeli>
-            <StyledBoxPeli ><CardPelis portada={imgPeli1}/></StyledBoxPeli>
-            <StyledBoxPeli ><CardPelis portada={imgPeli2}/></StyledBoxPeli>
-            <StyledBoxPeli ><CardPelis portada={imgPeli3}/></StyledBoxPeli>
-            <StyledBoxPeli ><CardPelis portada={imgPeli4}/></StyledBoxPeli>
-            <StyledBoxPeli ><CardPelis portada={imgPeli5}/></StyledBoxPeli>
-        </Grid>
+            <StyledTitulo>Todas las peliculas</StyledTitulo>
+            <Grid templateColumns="repeat(5, 1fr)" gap={5} style={{ marginLeft: "83px", marginRight: "83px", marginTop: "48px"}}>
+                {movies.map(m => {
+                    return (
+                        <StyledBoxPeli key={`${m.id}`}>
+                            <CardPelis portada={m.image} />
+                        </StyledBoxPeli>
+                    )
+                })}
+                {/* <StyledBoxPeli ><CardPelis portada={imgPeli2} /></StyledBoxPeli>
+            <StyledBoxPeli ><CardPelis portada={imgPeli3} /></StyledBoxPeli>
+            <StyledBoxPeli ><CardPelis portada={imgPeli4} /></StyledBoxPeli>
+            <StyledBoxPeli ><CardPelis portada={imgPeli5} /></StyledBoxPeli>
+            <StyledBoxPeli ><CardPelis portada={imgPeli1} /></StyledBoxPeli>
+            <StyledBoxPeli ><CardPelis portada={imgPeli2} /></StyledBoxPeli>
+            <StyledBoxPeli ><CardPelis portada={imgPeli3} /></StyledBoxPeli>
+            <StyledBoxPeli ><CardPelis portada={imgPeli4} /></StyledBoxPeli>
+            <StyledBoxPeli ><CardPelis portada={imgPeli5} /></StyledBoxPeli> */}
+            </Grid>
         </>
     )
 }
