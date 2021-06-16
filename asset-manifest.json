@@ -1,0 +1,32 @@
+{
+  "files": {
+    "main.js": "/BlockMaster/static/js/main.2962c08d.chunk.js",
+    "main.js.map": "/BlockMaster/static/js/main.2962c08d.chunk.js.map",
+    "runtime-main.js": "/BlockMaster/static/js/runtime-main.9896c65a.js",
+    "runtime-main.js.map": "/BlockMaster/static/js/runtime-main.9896c65a.js.map",
+    "static/css/2.5ecddcb9.chunk.css": "/BlockMaster/static/css/2.5ecddcb9.chunk.css",
+    "static/js/2.9dc46440.chunk.js": "/BlockMaster/static/js/2.9dc46440.chunk.js",
+    "static/js/2.9dc46440.chunk.js.map": "/BlockMaster/static/js/2.9dc46440.chunk.js.map",
+    "index.html": "/BlockMaster/index.html",
+    "static/css/2.5ecddcb9.chunk.css.map": "/BlockMaster/static/css/2.5ecddcb9.chunk.css.map",
+    "static/js/2.9dc46440.chunk.js.LICENSE.txt": "/BlockMaster/static/js/2.9dc46440.chunk.js.LICENSE.txt",
+    "static/media/AdamDeacon.d216bb65.jpg": "/BlockMaster/static/media/AdamDeacon.d216bb65.jpg",
+    "static/media/BrandonAuret.58d5f206.jpg": "/BlockMaster/static/media/BrandonAuret.58d5f206.jpg",
+    "static/media/IsabelBassett.243104a1.jpg": "/BlockMaster/static/media/IsabelBassett.243104a1.jpg",
+    "static/media/JessicaSutton.cacd0907.jpg": "/BlockMaster/static/media/JessicaSutton.cacd0907.jpg",
+    "static/media/MeganFox.76f2750e.jpg": "/BlockMaster/static/media/MeganFox.76f2750e.jpg",
+    "static/media/PhilipWinchester.152528c9.jpg": "/BlockMaster/static/media/PhilipWinchester.152528c9.jpg",
+    "static/media/SisandaHenna.24e433c9.jpg": "/BlockMaster/static/media/SisandaHenna.24e433c9.jpg",
+    "static/media/fondo7.d99753f3.jpg": "/BlockMaster/static/media/fondo7.d99753f3.jpg",
+    "static/media/logo-blockBuster.678349ed.png": "/BlockMaster/static/media/logo-blockBuster.678349ed.png",
+    "static/media/mulan.d1900b6b.png": "/BlockMaster/static/media/mulan.d1900b6b.png",
+    "static/media/raya.5fcb9ef8.png": "/BlockMaster/static/media/raya.5fcb9ef8.png",
+    "static/media/unidos.65a3d237.png": "/BlockMaster/static/media/unidos.65a3d237.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.9896c65a.js",
+    "static/css/2.5ecddcb9.chunk.css",
+    "static/js/2.9dc46440.chunk.js",
+    "static/js/main.2962c08d.chunk.js"
+  ]
+}
