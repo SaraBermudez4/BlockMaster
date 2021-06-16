@@ -1,6 +1,6 @@
 import { db } from "../firebase/firebase-config";
 
-export const loadMovies = async (id) => {
+export const loadMovies = async () => {
     const moviesSnap = await db.collection(`/peliculas/`).get()
     const movies = []
 

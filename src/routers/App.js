@@ -17,6 +17,10 @@ import { PrivateRouter } from "./PrivateRouter";
 import { PublicRouter } from "./PublicRouter";
 import { startLoadingMovies } from "../actions/movieAction";
 import { login } from "../actions/authActions";
+import {MasValoradas} from "../containers/masValoradas/MasValoradas";
+import { MenosValoradas} from "../containers/menosValoradas/MenosValoradas";
+import NavBar from "../components/home/NavBar";
+import Header from "../components/home/Header";
 
 const Carga = styled(Spinner)`
      display:block;
@@ -60,9 +64,12 @@ export const App = () => {
   return (
     <ChakraProvider>
       <Router>
-        
+        <NavBar />
+        <Header />
         <Switch>
           <Route exact path='/home' component={Home} />
+          <Route exact path='/masValoradas' component={MasValoradas} />
+          <Route exact path='/menosValoradas' component={MenosValoradas} />
           <PublicRouter path='/auth' component={AuthRouter}
             isAuthenticated={isLoggedIn} />
           <PrivateRouter path='/profile' component={Profile}

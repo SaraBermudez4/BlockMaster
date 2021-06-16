@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { Box, Grid } from '@chakra-ui/layout'
-import CardPelis from './CardPelis'
+import CardPelis from '../movies/CardPelis.jsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { activeMovie } from '../../actions/movieAction'
 import M from "materialize-css";
@@ -67,7 +67,7 @@ const StyledDivModal = styled.div`
     border-radius: 20px;
 `
 // , display: "flex", flexWrap: "wrap" 
-export const ContainerMovies = () => {
+export const MenosValoradas = () => {
     const { movies } = useSelector(state => state.movies)
     const dispatch = useDispatch()
     const handleClickMovie = (movie) => {
@@ -77,6 +77,10 @@ export const ContainerMovies = () => {
             })
         );
     }
+
+    movies.sort(function (a, b) {
+        return (b.qualification - a.qualification)
+    })
 
     useEffect(() => {
         var elems = document.querySelectorAll('.modal');
@@ -89,16 +93,18 @@ export const ContainerMovies = () => {
 
     return (
         <>
-            <StyledTitulo>Todas las peliculas</StyledTitulo>
+            <StyledTitulo>Menos valoradas</StyledTitulo>
             <Grid templateColumns="repeat(5, 1fr)" gap={5} style={{ marginLeft: "83px", marginRight: "83px", marginTop: "48px" }}>
                 {movies.map(m => {
-                    return (<>
-                        <StyledBoxPeli key={`${m.id}`} onClick={() =>
-                            handleClickMovie(m)} >
-                            <CardPelis movie={m} />
-                        </StyledBoxPeli>
-                    </>
-                    )
+                    if (m.qualification < 4) {
+                        return (<>
+                            <StyledBoxPeli key={`${m.id}`} onClick={() =>
+                                handleClickMovie(m)} >
+                                <CardPelis movie={m} />
+                            </StyledBoxPeli>
+                        </>
+                        )
+                    }
                 })}
             </Grid>
             <StyledDivModal id="modal1" className="modal">

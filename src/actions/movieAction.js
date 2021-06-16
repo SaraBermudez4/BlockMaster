@@ -13,7 +13,7 @@ export const setMovies = (movies) => ({
     payload: movies
 })
 
-export const activeProduct = (id, movie) => ({
+export const activeMovie = (id, movie) => ({
     type: types.movieActive,
     payload: {
         id,

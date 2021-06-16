@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import logo from '../../images/logo-blockBuster.png'
 import styled from 'styled-components'
 import { Button, Input } from '@chakra-ui/react'
 import { IoMdSearch } from 'react-icons/io'
+import { useDispatch } from 'react-redux'
+import { startLogout } from '../../actions/authActions'
+import firebase from 'firebase'
+import { Link } from 'react-router-dom'
+import { RiLoginBoxLine, RiLogoutBoxLine } from 'react-icons/ri'
+import { CgProfile } from 'react-icons/cg'
 
+import M from "materialize-css";
 const StyledNavLogo = styled.img`
     width: 106.81px;
     height: 64px;
@@ -12,7 +19,7 @@ const StyledNavLogo = styled.img`
     margin-bottom: 24px;
 `
 
-const StyledNavLinks = styled.a`
+const StyledNavLinks = styled(Link)`
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
     font-family: 'Inter', sans-serif;
     font-style: normal;
@@ -31,22 +38,79 @@ const StyledNavLinks = styled.a`
 `
 
 const NavBar = () => {
+
+    const dispatch = useDispatch()
+    const handleLogout = () => {
+        dispatch(startLogout())
+    }
+
+    const [isLoogedIn, setsIsLoogedIn] = useState(false)
+
+    useEffect(() => {
+        firebase.auth().onAuthStateChanged(async (user) => {
+            if (user?.uid) {
+                // dispatch(login(user.uid, user.displayName))
+                setsIsLoogedIn(true)
+            } else {
+                setsIsLoogedIn(false)
+            }
+        })
+
+    }, [dispatch])
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('.sidenav');
+        var instances = M.Sidenav.init(elems);
+    });
+
     return (
         <>
             <nav style={{ height: "112px", background: "#0F0E17", border: "none" }}>
                 <div className="nav-wrapper">
                     <a href="#" className="brand-logo"><StyledNavLogo src={logo} /></a>
                     <ul id="nav-mobile" className="right hide-on-med-and-down">
-                        <li><StyledNavLinks href="#">Todas</StyledNavLinks></li>
-                        <li><StyledNavLinks href="#">Más valoradas</StyledNavLinks></li>
-                        <li><StyledNavLinks href="#" style={{ marginRight: "48px" }}>Menos valoradas</StyledNavLinks></li>
+                        <li><StyledNavLinks to="/home">Todas</StyledNavLinks></li>
+                        <li><StyledNavLinks to="/masValoradas">Más valoradas</StyledNavLinks></li>
+                        <li><StyledNavLinks to="/menosValoradas" style={{ marginRight: "48px" }}>Menos valoradas</StyledNavLinks></li>
                         <li>
                             <form>
                                 <div className="input-field" style={{ display: "flex", marginTop: "34px", marginBottom: "34px", height: "22px" }}>
-                                    <Input variant="outline" placeholder="Busca tu pelicula favorita" style={{ background: "white", padding: "11px 12px", width: "358px", borderRadius: "8px 0px 0px 8px", color: "black" }} />
-                                    <Button style={{ marginRight: "83px", background: "#FED941", width: "72px", height: "44px", borderRadius: "0px 4px 4px 0px" }}><IoMdSearch style={{ color: "black", fontSize: "24px" }} /></Button>
+                                    <Input variant="outline" placeholder="Busca tu pelicula favorita" style={{ background: "white", padding: "11px 12px", width: "235px", borderRadius: "8px 0px 0px 8px", color: "black" }} />
+                                    <Button style={{ marginRight: "48px", background: "#FED941", width: "72px", height: "44px", borderRadius: "0px 4px 4px 0px" }}><IoMdSearch style={{ color: "black", fontSize: "24px" }} /></Button>
                                 </div>
                             </form>
+                        </li>
+                        <li>
+                            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "40px", marginRight: "83px" }}>{
+                                isLoogedIn ?
+                                    <div style={{ display: 'flex' }}>
+                                        <Link to='/profile'>
+                                            <div style={{ fontSize: '25px', opacity: '0.3' }}>
+                                                <CgProfile color="#ffa903" />
+                                            </div>
+
+                                        </Link>
+                                        {/* <Link to="/carrito" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                            <div style={{ margin: '0 30px' }}>
+                                                <img src="https://i.ibb.co/ChmcXxb/vector-shop-cart.png" alt="vector-shop-cart" border="0" />
+                                            </div>
+                                        </Link> */}
+                                    </div>
+                                    :
+                                    <p></p>
+                            }
+                                {
+                                    !isLoogedIn
+                                        ?
+                                        <Link to='/auth/login'>
+                                            <div style={{ fontSize: '25px', opacity: '0.3' }}>
+                                                <RiLoginBoxLine color="#ffa903" />
+                                            </div>
+                                        </Link>
+                                        :
+                                        <div onClick={handleLogout} style={{ fontSize: '25px', opacity: '0.3' }}> <RiLogoutBoxLine color="#ffa903" />
+                                        </div>
+                                }
+                            </div>
                         </li>
                     </ul>
                 </div>
