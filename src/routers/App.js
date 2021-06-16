@@ -17,10 +17,14 @@ import { PrivateRouter } from "./PrivateRouter";
 import { PublicRouter } from "./PublicRouter";
 import { startLoadingMovies } from "../actions/movieAction";
 import { login } from "../actions/authActions";
-import {MasValoradas} from "../containers/masValoradas/MasValoradas";
-import { MenosValoradas} from "../containers/menosValoradas/MenosValoradas";
+import { MasValoradas } from "../containers/masValoradas/MasValoradas";
+import { MenosValoradas } from "../containers/menosValoradas/MenosValoradas";
 import NavBar from "../components/home/NavBar";
 import Header from "../components/home/Header";
+import { startLoadingVerMasTarde } from "../actions/VerDespuesActions";
+import { VerMasTarde } from "../containers/verMasTarde/VerMasTarde";
+import Search from "../containers/search/Search";
+import VerAhora from "../containers/verAhora/VerAhora";
 
 const Carga = styled(Spinner)`
      display:block;
@@ -39,7 +43,8 @@ export const App = () => {
     firebase.auth().onAuthStateChanged(async (user) => {
       dispatch(startLoadingMovies())
       if (user?.uid) {
-        dispatch(login(user.id, user.displayName))
+        dispatch(login(user.uid, user.displayName, user.email, user.photoURL, user.phoneNumber))
+        dispatch(startLoadingVerMasTarde(user.uid))
         setIsLoggedIn(true)
         // dispatch(startLoadingUsers(user.uid))
       } else {
@@ -47,7 +52,7 @@ export const App = () => {
       }
       setChecking(false);
 
-    });
+    })
 
   }, [dispatch, setChecking, setIsLoggedIn])
 
@@ -64,23 +69,18 @@ export const App = () => {
   return (
     <ChakraProvider>
       <Router>
-        <NavBar />
-        <Header />
         <Switch>
           <Route exact path='/home' component={Home} />
           <Route exact path='/masValoradas' component={MasValoradas} />
           <Route exact path='/menosValoradas' component={MenosValoradas} />
+          <Route exact path='/search' component={Search} />
+          <Route exact path='/verAhora' component={VerAhora} />
           <PublicRouter path='/auth' component={AuthRouter}
             isAuthenticated={isLoggedIn} />
           <PrivateRouter path='/profile' component={Profile}
             isAuthenticated={isLoggedIn} />
-          <Route path='/description/:peliId' component={DetailPelis} />
-          {/* <Route exact path='/home' component={Home} />
-          <PublicRouter path='/auth' component={AuthRouter}
-          />
-          <PrivateRouter path='/profile' component={Profile}
-          />
-          <Route path='/description/:peliId' component={DetailPelis} /> */}
+          {/* <Route path='/description/:peliId' component={DetailPelis} /> */}
+          <PrivateRouter path='/verMasTarde' component={VerMasTarde} isAuthenticated={isLoggedIn} />
           <Redirect to="/home" />
         </Switch>
       </Router>

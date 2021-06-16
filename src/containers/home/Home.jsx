@@ -5,8 +5,8 @@ import { ContainerMovies } from '../movies/ContainerMovies.jsx'
 const Home = () => {
     return (
         <div>
-            {/* <NavBar /> */}
-            {/* <Header /> */}
+            <NavBar />
+            <Header />
             <ContainerMovies />
         </div>
     )

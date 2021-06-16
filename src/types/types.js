@@ -14,6 +14,10 @@ export const types = {
     searchMovie: "[Search] Movie",
     cleanSearch: "[Search] Clean Search",
 
+    verMasTardeAdd: 'Add Ver Mas Tarde',
+    verMasTardeLoad: 'Load Ver Mas Tarde',
+    verMasTardeDelete: 'Delete Ver Mas Tarde',
+
     addUser: "[User] Add User",
     updateUser: "[User] Update User",
     loadUser: "[User] Load User"

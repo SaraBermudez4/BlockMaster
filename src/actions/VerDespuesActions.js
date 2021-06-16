@@ -1,8 +1,8 @@
 import { db } from "../firebase/firebase-config"
 import { types } from "../types/types"
-import { loadVerDespues } from '../helpers/loadHelp'
+import { loadVerMasTarde } from '../helpers/loadHelp'
 
-export const AddVerDespues = (title, description, category, date, duration, image, qualification, trailer) => {
+export const AddVerMasTarde = (title, description, category, date, duration, image, qualification, trailer) => {
     return async (dispatch, getState) => {
         const { uid } = getState().auth
 
@@ -14,82 +14,46 @@ export const AddVerDespues = (title, description, category, date, duration, imag
             duration,
             image,
             qualification,
-            trailer
+            trailer:""
         }
 
-        await db.collection(`verDespues/${uid}/movies`).add(newMovie)
+        await db.collection(`verMasTarde/${uid}/movies`).add(newMovie)
         dispatch(addNewMovie(uid, newMovie))
-        dispatch(startLoadingVerDespues(uid))
+        dispatch(startLoadingVerMasTarde(uid))
     }
 }
 
 export const addNewMovie = (uid, movie) => ({
-    type: types.verDespuesAdd,
+    type: types.verMasTardeAdd,
     payLoad: {
         uid,
         ...movie
     }
 })
 
-export const startLoadingVerDespues = (id) => {
+export const startLoadingVerMasTarde = (id) => {
     return async (dispatch) => {
 
-        const movie = await loadVerDespues(id);
-        dispatch(setVerDespues(movie));
+        const movie = await loadVerMasTarde(id);
+        dispatch(setVerMasTarde(movie));
     }
 }
 
-export const setVerDespues = (movie) => ({
-    type: types.movieLoad,
+export const setVerMasTarde = (movie) => ({
+    type: types.verMasTardeLoad,
     payload: movie
 });
 
-export const startSaveverDespues = (verDespues) => {
-    return async (dispatch, getState) => {
-
-        const { uid } = getState().auth;
-
-        const verDespuesToFirestore = { ...verDespues };
-        delete verDespuesToFirestore.id;
-
-        await db.doc(`verDespues/${uid}/movies/${verDespues.id}`).update(verDespuesToFirestore);
-
-        dispatch(refreshverDespues(verDespues.id, verDespuesToFirestore));
-        dispatch(startLoadingCart(uid))
-    }
-}
-
-export const refreshverDespues = (id, movie) => ({
-    type: types.verDespuesUpdate,
-    payload: {
-        id,
-        movie: {
-            id,
-            ...movie
-        }
-    }
-});
-
-export const activeCart = (id, cart) => ({
-    type: types.cartActive,
-    payload: {
-        id,
-        ...cart
-    }
-});
-
-export const startDeletingCart = (id) => {
+export const startDeletingVerMasTarde = (id) => {
     return async (dispatch, getState) => {
 
         const uid = getState().auth.uid;
-
-        await db.doc(`cart/${uid}/productos/${id}`).delete();
-
-        dispatch(deleteCart(id));
+        await db.doc(`verMasTarde/${uid}/movies/${id}`).delete();
+        dispatch(deleteVerMasTarde(id));
     }
 }
 
-export const deleteCart = (id) => ({
-    type: types.cartDelete,
+export const deleteVerMasTarde = (id) => ({
+    type: types.verMasTardeDelete,
     payload: id
 });

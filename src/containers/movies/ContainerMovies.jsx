@@ -19,7 +19,11 @@ import actor6 from '../../images/KennethFok.jpg'
 import actor7 from '../../images/PhilipWinchester.jpg'
 import actor8 from '../../images/SisandaHenna.jpg'
 import actor9 from '../../images/TamerBurjaq.jpg'
+import { AddVerMasTarde } from '../../actions/VerDespuesActions'
 
+import { Link } from 'react-router-dom'
+
+import Swal from 'sweetalert2'
 
 const StyledBoxPeli = styled(Box)`
     width: 220px;
@@ -87,13 +91,32 @@ export const ContainerMovies = () => {
 
     const { active } = useSelector(state => state.movies)
 
+    const { movies: moviesVerMasTarde } = useSelector(state => state.verMasTarde)
+
+    const agregarVerMasTarde = (e) => {
+        e.preventDefault()
+
+        const found1 = moviesVerMasTarde.find(element => element.title === active.title);
+
+        if (found1 === undefined) {
+            dispatch(AddVerMasTarde(active.title, active.description, active.category, active.date, active.duration, active.image, active.qualification, active.trailer))
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Pelicula agregada a ver despues',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
+    }
+
     return (
         <>
             <StyledTitulo>Todas las peliculas</StyledTitulo>
             <Grid templateColumns="repeat(5, 1fr)" gap={5} style={{ marginLeft: "83px", marginRight: "83px", marginTop: "48px" }}>
                 {movies.map(m => {
                     return (<>
-                        <StyledBoxPeli key={`${m.id}`} onClick={() =>
+                        <StyledBoxPeli key={`home-${m.id}`} onClick={() =>
                             handleClickMovie(m)} >
                             <CardPelis movie={m} />
                         </StyledBoxPeli>
@@ -123,24 +146,6 @@ export const ContainerMovies = () => {
                                 <WrapItem>
                                     <Avatar name="actor3" src={actor3} />
                                 </WrapItem>
-                                <WrapItem>
-                                    <Avatar name="actor4" src={actor4} />
-                                </WrapItem>
-                                <WrapItem>
-                                    <Avatar name="actor5" src={actor5} />
-                                </WrapItem>
-                                <WrapItem>
-                                    <Avatar name="actor6" src={actor6} />
-                                </WrapItem>
-                                <WrapItem>
-                                    <Avatar name="actor7" src={actor7} />
-                                </WrapItem>
-                                <WrapItem>
-                                    <Avatar name="actor8" src={actor8} />
-                                </WrapItem>
-                                <WrapItem>
-                                    <Avatar name="actor9" src={actor9} />
-                                </WrapItem>
                                 {/* ) */}
                                 {/* })} */}
 
@@ -154,9 +159,15 @@ export const ContainerMovies = () => {
                     <StyledImagePeli src={active.image} />
                 </div>
                 <div className="modal-footer" style={{ display: "flex", marginBottom: "20px", background: "#0f0e17ba" }}>
-                    <StyledButtom onClick={() => console.log(active.title)} className="btn" style={{ width: "195px", marginLeft: "24px", background: "#FED941", color: "#000000" }}
-                    ><FaPlay style={{ marginRight: "8px", marginTop: "3px" }} />Ver ahora</StyledButtom>
-                    <StyledButtom onClick={() => console.log(active.title)} className="btn " style={{ width: "213px", marginLeft: "16px", background: "#0C0E16", color: "#FED941" }}><IoMdAdd style={{ marginRight: "8px", marginTop: "3px" }} />Ver después</StyledButtom>
+                    <Link to="/verAhora" >
+                        <StyledButtom onClick={() => {
+                            setTimeout(() => {
+                                window.location.reload()
+                            }, 1000);
+                        }} className="btn" style={{ width: "195px", marginLeft: "24px", background: "#FED941", color: "#000000" }}
+                        ><FaPlay style={{ marginRight: "8px", marginTop: "3px" }} />Ver ahora</StyledButtom>
+                    </Link>
+                    <StyledButtom onClick={(e) => agregarVerMasTarde(e)} className="btn " style={{ width: "213px", marginLeft: "16px", background: "#0C0E16", color: "#FED941" }}><IoMdAdd style={{ marginRight: "8px", marginTop: "3px" }} />Ver después</StyledButtom>
                     {/* <a href="#!" className="modal-close waves-effect waves-green btn-flat">Agree</a> */}
                 </div>
             </StyledDivModal>

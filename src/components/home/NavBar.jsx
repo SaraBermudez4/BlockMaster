@@ -11,6 +11,7 @@ import { RiLoginBoxLine, RiLogoutBoxLine } from 'react-icons/ri'
 import { CgProfile } from 'react-icons/cg'
 
 import M from "materialize-css";
+import { starCleanSearch, startSearch } from '../../actions/movieAction'
 const StyledNavLogo = styled.img`
     width: 106.81px;
     height: 64px;
@@ -62,6 +63,18 @@ const NavBar = () => {
         var instances = M.Sidenav.init(elems);
     });
 
+    const [filter, setFilter] = useState('')
+
+    const handleDataSearch = (e) => {
+        e.preventDefault()
+        dispatch(startSearch(filter.toLowerCase()))
+        console.log(filter);
+    }
+
+    const handleLimpiar = () => {
+        dispatch(starCleanSearch())
+    }
+
     return (
         <>
             <nav style={{ height: "112px", background: "#0F0E17", border: "none" }}>
@@ -72,10 +85,14 @@ const NavBar = () => {
                         <li><StyledNavLinks to="/masValoradas">Más valoradas</StyledNavLinks></li>
                         <li><StyledNavLinks to="/menosValoradas" style={{ marginRight: "48px" }}>Menos valoradas</StyledNavLinks></li>
                         <li>
-                            <form>
+                            <form onSubmit={handleDataSearch}>
                                 <div className="input-field" style={{ display: "flex", marginTop: "34px", marginBottom: "34px", height: "22px" }}>
-                                    <Input variant="outline" placeholder="Busca tu pelicula favorita" style={{ background: "white", padding: "11px 12px", width: "235px", borderRadius: "8px 0px 0px 8px", color: "black" }} />
-                                    <Button style={{ marginRight: "48px", background: "#FED941", width: "72px", height: "44px", borderRadius: "0px 4px 4px 0px" }}><IoMdSearch style={{ color: "black", fontSize: "24px" }} /></Button>
+                                    <Input variant="outline" placeholder="Busca tu pelicula favorita" type='search' style={{ background: "white", padding: "11px 12px", width: "235px", borderRadius: "8px 0px 0px 8px", color: "black" }} name="search" onChange={(e) => {
+                                        setFilter(e.target.value)
+                                    }} />
+                                    {/* <Link to="/search"> */}
+                                        <Button type="submit" style={{ marginRight: "48px", background: "#FED941", width: "72px", height: "44px", borderRadius: "0px 4px 4px 0px" }}><IoMdSearch style={{ color: "black", fontSize: "24px" }} /></Button>
+                                    {/* </Link> */}
                                 </div>
                             </form>
                         </li>
@@ -83,7 +100,7 @@ const NavBar = () => {
                             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "40px", marginRight: "83px" }}>{
                                 isLoogedIn ?
                                     <div style={{ display: 'flex' }}>
-                                        <Link to='/profile'>
+                                        <Link to='/verMasTarde'>
                                             <div style={{ fontSize: '25px', opacity: '0.3' }}>
                                                 <CgProfile color="#ffa903" />
                                             </div>

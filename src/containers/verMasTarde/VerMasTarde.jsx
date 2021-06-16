@@ -24,6 +24,7 @@ import { AddVerMasTarde } from '../../actions/VerDespuesActions.js'
 import Swal from 'sweetalert2'
 import NavBar from '../../components/home/NavBar.jsx'
 import Header from '../../components/home/Header.jsx'
+
 import { Link } from 'react-router-dom'
 
 const StyledBoxPeli = styled(Box)`
@@ -72,8 +73,9 @@ const StyledDivModal = styled.div`
     border-radius: 20px;
 `
 // , display: "flex", flexWrap: "wrap" 
-export const MasValoradas = () => {
-    const { movies } = useSelector(state => state.movies)
+export const VerMasTarde = () => {
+    const { movies } = useSelector(state => state.verMasTarde)
+    const { active } = useSelector(state => state.movies)
     const dispatch = useDispatch()
     const handleClickMovie = (movie) => {
         dispatch(
@@ -82,10 +84,7 @@ export const MasValoradas = () => {
             })
         );
     }
-
-    movies.sort(function (a, b) {
-        return (b.qualification - a.qualification)
-    })
+    console.log(movies);
 
     useEffect(() => {
         var elems = document.querySelectorAll('.modal');
@@ -94,14 +93,10 @@ export const MasValoradas = () => {
         });
     }, [])
 
-    const { active } = useSelector(state => state.movies)
-
-    const { movies: moviesVerMasTarde } = useSelector(state => state.verMasTarde)
-
     const agregarVerMasTarde = (e) => {
         e.preventDefault()
 
-        const found1 = moviesVerMasTarde.find(element => element.title === active.title);
+        const found1 = movies.find(element => element.title === active.title);
 
         if (found1 === undefined) {
             dispatch(AddVerMasTarde(active.title, active.description, active.category, active.date, active.duration, active.image, active.qualification, active.trailer))
@@ -119,18 +114,16 @@ export const MasValoradas = () => {
         <>
             <NavBar />
             <Header />
-            <StyledTitulo>Mas Valoradas</StyledTitulo>
+            <StyledTitulo>Ver más tarde</StyledTitulo>
             <Grid templateColumns="repeat(5, 1fr)" gap={5} style={{ marginLeft: "83px", marginRight: "83px", marginTop: "48px" }}>
                 {movies.map(m => {
-                    if (m.qualification > 4) {
-                        return (<>
-                            <StyledBoxPeli key={`masValoradas-${m.id}`} onClick={() =>
-                                handleClickMovie(m)} >
-                                <CardPelis movie={m} />
-                            </StyledBoxPeli>
-                        </>
-                        )
-                    }
+                    return (<>
+                        <StyledBoxPeli key={`verMasTarde-${m.id}`} onClick={() =>
+                            handleClickMovie(m)} >
+                            <CardPelis movie={m} />
+                        </StyledBoxPeli>
+                    </>
+                    )
                 })}
             </Grid>
             <StyledDivModal id="modal1" className="modal">
@@ -169,7 +162,7 @@ export const MasValoradas = () => {
                 </div>
                 <div className="modal-footer" style={{ display: "flex", marginBottom: "20px", background: "#0f0e17ba" }}>
                     <Link to={'/verAhora/'}>
-                        <StyledButtom  className="btn" style={{ width: "195px", marginLeft: "24px", background: "#FED941", color: "#000000" }}
+                        <StyledButtom className="btn" style={{ width: "195px", marginLeft: "24px", background: "#FED941", color: "#000000" }}
                         ><FaPlay style={{ marginRight: "8px", marginTop: "3px" }} />Ver ahora</StyledButtom>
                     </Link>
                     <StyledButtom onClick={(e) => agregarVerMasTarde(e)} className="btn " style={{ width: "213px", marginLeft: "16px", background: "#0C0E16", color: "#FED941" }}><IoMdAdd style={{ marginRight: "8px", marginTop: "3px" }} />Ver después</StyledButtom>
